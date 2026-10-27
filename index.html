@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>PDF Watermark — Add Text or Logo Watermarks to a PDF, Free &amp; Private | S3eidat Tools</title>
+<meta name="description" content="Stamp CONFIDENTIAL, DRAFT, COPY, your own text or a logo on every PDF page. Size, colour, opacity, rotation, centred or tiled, page range, live preview. Nothing uploaded.">
+<meta property="og:title" content="PDF Watermark — stamp text or a logo on every page">
+<meta property="og:description" content="Text or image watermarks with opacity, rotation and tiling. Runs 100% in your browser.">
+<link rel="icon" href="kit/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="kit/kit.css">
+<link rel="stylesheet" href="app.css">
+<script src="kit/kit.js"></script>
+<script src="lib/pdf-lib.min.js"></script>
+<!--s3:seo-->
+<link rel="canonical" href="https://s3eidat.github.io/pdf-watermark/">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d0f12">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="S3eidat Tools">
+<meta property="og:url" content="https://s3eidat.github.io/pdf-watermark/">
+<meta property="og:image" content="https://s3eidat.github.io/pdf-watermark/screenshot.png">
+<meta property="og:image:width" content="1280"><meta property="og:image:height" content="800">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDF Watermark — Stamp text or a logo on every PDF page">
+<meta name="twitter:description" content="Stamp text or a logo on every PDF page. Free, private and runs 100% in your browser: no sign-up, no uploads.">
+<meta name="twitter:image" content="https://s3eidat.github.io/pdf-watermark/screenshot.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "PDF Watermark", "url": "https://s3eidat.github.io/pdf-watermark/", "description": "Stamp text or a logo on every PDF page. Free, private and runs 100% in your browser: no sign-up, no uploads.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://s3eidat.github.io/pdf-watermark/screenshot.png", "author": {"@type": "Person", "name": "s3eidat", "url": "https://github.com/s3eidat"}}</script>
+<!--/s3:seo-->
+</head>
+<body data-tool="pdf-watermark">
+<main class="s3-main">
+  <section class="s3-hero">
+    <h1>PDF Watermark</h1>
+    <p>Stamp a word or your logo across your PDF's pages: centred or tiled, any colour, angle and transparency, with a live preview. The file never leaves this device.</p>
+  </section>
+
+  <section class="card" id="dropCard">
+    <label class="drop" id="drop">
+      <input type="file" accept=".pdf,application/pdf" hidden>
+      <svg class="i"><use href="#i-upload"/></svg>
+      <b>Drop a PDF here</b>
+      <span>or click to choose one</span>
+    </label>
+  </section>
+
+  <div class="wm-layout" id="work" hidden>
+    <section class="card">
+      <div class="row between wm-file">
+        <div class="row wm-fname"><svg class="i"><use href="#i-file"/></svg><b id="fname"></b></div>
+        <button class="btn ghost small" id="change"><svg class="i"><use href="#i-refresh"/></svg>Another file</button>
+      </div>
+      <span class="faint" id="fmeta"></span>
+
+      <div class="seg wm-kind mt" id="kind" role="group" aria-label="Watermark type">
+        <button data-v="text">Text</button>
+        <button data-v="image">Image / logo</button>
+      </div>
+
+      <div id="pText" class="mt">
+        <label class="field">Text<input class="input" id="text" dir="auto" spellcheck="false"></label>
+        <div class="row wm-chips" id="chips" role="group" aria-label="Presets">
+          <button type="button" data-v="CONFIDENTIAL">CONFIDENTIAL</button>
+          <button type="button" data-v="DRAFT">DRAFT</button>
+          <button type="button" data-v="COPY">COPY</button>
+          <button type="button" data-v="SAMPLE">SAMPLE</button>
+          <button type="button" data-v="DO NOT COPY">DO NOT COPY</button>
+        </div>
+        <div class="grid-2 mt">
+          <label class="field">Font<select class="select" id="font">
+            <option value="HelveticaBold">Helvetica Bold</option><option value="Helvetica">Helvetica</option>
+            <option value="TimesRomanBold">Times Bold</option><option value="CourierBold">Courier Bold</option></select></label>
+          <label class="field">Colour<input type="color" id="color"></label>
+        </div>
+        <label class="field mt"><span class="wm-lbl">Size <span class="wm-val" id="sizeVal"></span></span><input type="range" id="size" min="12" max="200" step="1"></label>
+      </div>
+
+      <div id="pImage" class="mt" hidden>
+        <label class="drop wm-imgdrop" id="imgDrop">
+          <input type="file" accept="image/*" hidden>
+          <div class="wm-thumb checker" id="imgThumb"><svg class="i"><use href="#i-image"/></svg></div>
+          <b id="imgName">Choose a logo or image</b>
+          <span>PNG with transparency looks best</span>
+        </label>
+        <label class="field mt"><span class="wm-lbl">Width <span class="wm-val" id="scaleVal"></span></span><input type="range" id="scale" min="5" max="100" step="1"></label>
+      </div>
+
+      <div class="grid-2 mt">
+        <label class="field"><span class="wm-lbl">Opacity <span class="wm-val" id="opVal"></span></span><input type="range" id="opacity" min="5" max="100" step="1"></label>
+        <label class="field"><span class="wm-lbl">Rotation <span class="wm-val" id="rotVal"></span></span><input type="range" id="rot" min="-90" max="90" step="1"></label>
+      </div>
+      <div class="row mt wm-lay">
+        <div class="seg" id="mode" role="group" aria-label="Layout">
+          <button data-v="center">Centred</button>
+          <button data-v="tile">Tiled</button>
+        </div>
+        <label class="field grow" id="gapBox"><span class="wm-lbl">Tile spacing <span class="wm-val" id="gapVal"></span></span><input type="range" id="gap" min="10" max="300" step="5"></label>
+      </div>
+      <label class="field mt"><span class="wm-lbl">Pages <span class="faint" id="rangeMsg"></span></span><input class="input" id="range" placeholder="All, or e.g. 1-3, 7" spellcheck="false" inputmode="numeric"></label>
+
+      <button class="btn primary big wm-go mt" id="save"><svg class="i"><use href="#i-download"/></svg>Add watermark &amp; download</button>
+    </section>
+
+    <section class="card wm-preview">
+      <div class="row between">
+        <h2>Preview</h2>
+        <div class="row">
+          <button class="btn icon small" id="prev" aria-label="Previous page">‹</button>
+          <span class="chip" id="pageNo"></span>
+          <button class="btn icon small" id="next" aria-label="Next page">›</button>
+        </div>
+      </div>
+      <div class="wm-stage mt"><div class="wm-page" id="page"><canvas id="ov" aria-hidden="true"></canvas></div></div>
+      <p class="faint wm-cap" id="cap"></p>
+    </section>
+  </div>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

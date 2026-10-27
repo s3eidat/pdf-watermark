@@ -1,0 +1,36 @@
+.wm-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.wm-file { flex-wrap: nowrap; }
+.wm-fname { gap: 8px; min-width: 0; flex-wrap: nowrap; }
+.wm-fname b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wm-kind { display: flex; }
+.wm-kind button { flex: 1; }
+.wm-chips { gap: 6px; margin-top: 8px; }
+.wm-chips button { padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; background: var(--surface-2); color: var(--text-2); border: 1px solid var(--line); }
+.wm-chips button:hover { color: var(--text); border-color: var(--line-strong); }
+.wm-chips button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.wm-val { float: right; color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 600; }
+input[type="color"]#color { width: 100%; }
+.wm-imgdrop { padding: 16px; grid-template-columns: auto minmax(0, 1fr); justify-items: start; text-align: left; column-gap: 14px; row-gap: 2px; }
+.wm-imgdrop .wm-thumb { grid-row: span 2; width: 64px; height: 64px; border-radius: 10px; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--line); }
+.wm-imgdrop .wm-thumb img { max-width: 90%; max-height: 90%; }
+.wm-imgdrop b { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.wm-imgdrop span { font-size: 12px; }
+.wm-lay { align-items: flex-end; }
+#rangeMsg { font-weight: 500; }
+#rangeMsg.bad { color: var(--danger); }
+#range.bad { border-color: var(--danger); }
+.wm-go { width: 100%; }
+
+.wm-preview { position: sticky; top: 74px; }
+.wm-stage { padding: 14px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; }
+.wm-page { position: relative; width: 100%; background: #fff; box-shadow: 0 4px 24px -6px rgba(0,0,0,.45); overflow: hidden; }
+.wm-page canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wm-cap { margin: 10px 0 0; text-align: center; }
+
+@media (max-width: 860px) {
+  .wm-layout { grid-template-columns: minmax(0, 1fr); }
+  .wm-preview { position: static; }
+}
+
+.wm-lbl { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.wm-lbl > span { float: none; }
